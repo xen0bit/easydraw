@@ -1,6 +1,7 @@
 body {
   font-family: monospace;
   background: #eee;
+  overflow: hidden;
 }
 
 .border-box {
@@ -56,6 +57,11 @@ button:hover {
   margin-top: 80px;
 }
 
+#canvasContainer {
+  width: 512;
+  height: 512;
+}
+
 #btnContainer {
   margin: 0 20px;
 }
@@ -70,6 +76,11 @@ button:hover {
   height: 60px;
   margin-left: 20px;
   margin-bottom: 10px;
+}
+
+#defaultCanvas0 {
+  width: 100% !important;
+  height: 100% !important;
 }
 
 @keyframes pokeball-spin {

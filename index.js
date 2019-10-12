@@ -2,12 +2,13 @@ const SIZE = 256, sampleNum = 7;
 let inputCanvas, outputContainer, statusMsg, transferBtn, sampleIndex = 0, modelReady = false, isTransfering = false;
 const inputImgs = [], outputImgs = [];
 
-const edges2pikachu = pix2pix('./models/edges2pikachu_AtoB.pict', modelLoaded);
+const edges2pikachu = pix2pix('./models/coloringbook_BtoA.pictxxx', modelLoaded);
 
 function setup() {
   // Create canvas
   inputCanvas = createCanvas(SIZE, SIZE);
   inputCanvas.class('border-box pencil').parent('canvasContainer');
+  inputCanvas
 
   // Selcect output div container
   outputContainer = select('#output');
