@@ -7,7 +7,13 @@ body {
 .border-box {
   background: white;
   border-radius: 7px;
-  margin: 20px;
+  /*margin: 20px;*/
+}
+
+.expand {
+  /*display: flex;*/
+  width: 100%;
+  height: 100%;
 }
 
 .flex {
@@ -54,12 +60,12 @@ button:hover {
 }
 
 #transferContainer {
-  margin-top: 80px;
+  /*margin-top: 80px;*/
 }
 
 #canvasContainer {
-  width: 512;
-  height: 512;
+  width: auto;
+  height: 90%;
 }
 
 #btnContainer {
@@ -73,9 +79,9 @@ button:hover {
 
 .pokeball {
   animation: pokeball-spin infinite 5s linear;
-  height: 60px;
+  height: 10px;
   margin-left: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 #defaultCanvas0 {

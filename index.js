@@ -2,7 +2,7 @@ const SIZE = 256, sampleNum = 7;
 let inputCanvas, outputContainer, statusMsg, transferBtn, sampleIndex = 0, modelReady = false, isTransfering = false;
 const inputImgs = [], outputImgs = [];
 
-const edges2pikachu = pix2pix('./models/coloringbook_BtoA.pictxxx', modelLoaded);
+const edges2pikachu = pix2pix('./models/coloringbook_BtoA.pict', modelLoaded);
 
 function setup() {
   // Create canvas
@@ -19,9 +19,9 @@ function setup() {
   loadImage('./images/input.png', inputImg => image(inputImg, 0, 0));
 
   // Display initial output image
-  let out = createImg('./images/output.png');
-  outputContainer.html('');
-  out.class('border-box').parent('output');
+  //let out = createImg('./images/output.png');
+  //outputContainer.html('');
+  //out.class('border-box').parent('output');
 
   // Load other sample input/output images
   for (let i = 1; i <= sampleNum; i += 1) {
@@ -61,9 +61,12 @@ function transfer() {
   // Apply pix2pix transformation
   edges2pikachu.transfer(canvasElement, result => {
     // Clear output container
-    outputContainer.html('');
+    //outputContainer.html('');
     // Create an image based result
-    createImg(result.src).class('border-box').parent('output');
+    //createImg(result.src).class('border-box').parent('output');
+    var transferCanvas = document.getElementById('defaultCanvas0'),
+    context = transferCanvas.getContext('2d');
+    context.drawImage(result, 0, 0)
     statusMsg.html('Done!');
     isTransfering = false;
   });
