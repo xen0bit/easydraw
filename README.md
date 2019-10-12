@@ -1,29 +1,27 @@
-# Pix2pix edge2Pikachu in deeplearnjs (OLD)
+# pix2pix in tensorflow.js
+See a live demo here: [https://yining1023.github.io/pix2pix_tensorflowjs_lite/](https://yining1023.github.io/pix2pix_tensorflowjs_lite/)
 
-<a href="https://ibb.co/fpS5vH"><img src="https://preview.ibb.co/dHrXaH/Screen_Shot_2018_03_15_at_8_59_06_AM.png" alt="Screen_Shot_2018_03_15_at_8_59_06_AM" border="0"></a>
+<a href="https://ibb.co/e0oUUd"><img src="images/demo.gif" alt="demo"></a>
 
-Demo: [https://yining1023.github.io/pix2pix_edge2pikachu_deeplearnjs_old](https://yining1023.github.io/pix2pix_edge2pikachu_deeplearnjs_old)
-
-Credits: This project is based on [affinelayer](https://github.com/affinelayer)'s [pix2pix-tensorflow](https://github.com/affinelayer/pix2pix-tensorflow). I want to thank [christopherhesse](https://github.com/christopherhesse), [nsthorat](https://github.com/nsthorat), and [dsmilkov](dsmilkov) for their help and suggestions from this Github [issue](https://github.com/PAIR-code/deeplearnjs/issues/239).
-
-
-Todo list:
-- [ ] Make it draw in realtime.
-- [ ] Make the model smaller(54.4 MB now)
-- [ ] Make the model faster(~3000 ms for the first image, and ~1600 ms for other images)
-
-Try it yourself: Download the folder and run it locally:
+Try it yourself: Download/clone the repository and run it locally:
 ```
+$ git clone https://github.com/yining1023/pix2pix_tensorflowjs_lite.git
+$ cd pix2pix_tensorflowjs_lite
 $ python -m SimpleHTTPServer
 ```
 
 
-## How to create edge2xxx from scratch
+
+Credits: This project is based on [affinelayer](https://github.com/affinelayer)'s [pix2pix-tensorflow](https://github.com/affinelayer/pix2pix-tensorflow). I want to thank [christopherhesse](https://github.com/christopherhesse), [nsthorat](https://github.com/nsthorat), and [dsmilkov](dsmilkov) for their help and suggestions from this Github [issue](https://github.com/tensorflow/tfjs/issues/79).
+
+
+
+## How to train a pix2pix(edges2xxx) model from scratch
 - 1. Prepare the data
 - 2. Train the model
 - 3. Test the model
 - 4. Export the model
-- 5. Port the model to deeplearn.js
+- 5. Port the model to tensorflow.js
 - 6. Create an interactive interface in the browser
 
 
@@ -40,7 +38,7 @@ $ python -m SimpleHTTPServer
 Before we start, check out [affinelayer](https://github.com/affinelayer)'s [Create your own dataset](https://github.com/affinelayer/pix2pix-tensorflow#creating-your-own-dataset). I followed his instrustion for steps 1.3, 1.5 and 1.6.
 
 
-#### 1.1 Scrape images from google search
+#### 1.1 Scrape images from google search / Flickr
 We can create our own target images. But for this edge2pikachu project, I downloaded a lot of images from google. I'm using this [google_image_downloader](https://github.com/atif93/google_image_downloader) to download images from google.
 After downloading the repo above, run -
 ```
@@ -48,6 +46,7 @@ $ python image_download.py <query> <number of images>
 ```
 It will download images and save it to the current directory.
 
+You can also try this library to get images from Flickr: https://github.com/antiboredom/flickr-scrape. You can get an API key for Flickr in a few minutes: https://www.flickr.com/services/api/misc.api_keys.html
 
 #### 1.2 Remove the background of the images
 Some images have some background. I'm using [grabcut](https://docs.opencv.org/trunk/d8/d83/tutorial_py_grabcut.html) with OpenCV to remove background
@@ -110,8 +109,9 @@ I collected 305 images for training and 78 images for testing.
 ### 2. Train the model
 ```
 # train the model
-python pix2pix.py --mode train --output_dir pikachu_train --max_epochs 200 --input_dir pikachu/train --which_direction BtoA
+python pix2pix.py --mode train --output_dir pikachu_train --max_epochs 200 --input_dir pikachu/train --which_direction BtoA --ngf 32 --ndf 32
 ```
+I used `--ngf 32 --ndf 32` here, and the model is much smaller and faster than using the default value which is 64.
 Read more here: [https://github.com/affinelayer/pix2pix-tensorflow#getting-started](https://github.com/affinelayer/pix2pix-tensorflow#getting-started)
 
 I used the High Power Computer(HPC) at NYU to train the model. You can see more instruction here: [https://github.com/cvalenzuela/hpc](https://github.com/cvalenzuela/hpc). You can request GPU and submit a job to HPC, and use tunnels to tranfer large files between the HPC and your computer.
@@ -137,15 +137,16 @@ python pix2pix.py --mode export --output_dir /export/ --checkpoint /pikachu_trai
 ```
 It will create a new `export` folder
 
-### 5. Port the model to deeplearn.js
+### 5. Port the model to tensorflow.js
 I followed [affinelayer](https://github.com/affinelayer)'s instruction here: [https://github.com/affinelayer/pix2pix-tensorflow/tree/master/server#exporting](https://github.com/affinelayer/pix2pix-tensorflow/tree/master/server#exporting)
 
 ```
 cd server
 python tools/export-checkpoint.py --checkpoint ../export --output_file static/models/pikachu_BtoA.pict
 ```
-We should be able to get a file named `pikachu_BtoA.pict`, which is 54.4 MB.
+We should be able to get a file named `pikachu_BtoA.pict`, which is 13.6 MB.
 
 
 ### 6. Create an interactive interface in the browser
 Copy the model we get from step 5 to the `models` folder.
+
